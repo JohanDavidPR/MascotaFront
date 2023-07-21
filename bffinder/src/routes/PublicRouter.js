@@ -1,15 +1,23 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Perfil from '../pages/Perfil'
-import Autenticacion from '../pages/Autenticacion'
-import Home from '../pages/Home'
-import NotFound from '../pages/NotFound'
+import {
+    Routes,
+    Route,
+    Navigate
+} from 'react-router-dom'
+import Home from '../Views/pages/Home'
+import NotFound from '../Views/pages/NotFound'
+import Autenticacion from '../Views/pages/Autenticacion'
 
-export default function PublicRouter() {
+export default function PublicRouter({ isValid }) {
     return <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Autenticacion />} />
-        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={
+            !isValid ? (
+                <Autenticacion />
+            ) : (
+                <Navigate to="/home" />
+            )
+        } />
         <Route path="*" element={<NotFound />} />
     </Routes>
 }
