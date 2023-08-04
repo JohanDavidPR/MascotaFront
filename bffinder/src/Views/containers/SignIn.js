@@ -1,9 +1,10 @@
 import React from 'react'
 import { useState } from 'react'
-import {login} from '../../Data/Services/userService'
+import { login } from '../../Data/Services/userService'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
-import { userLogin } from '../../Data/Store/Actions/UserAction';
+import { useDispatch } from 'react-redux';
+import { userData } from '../../Data/Store/reducers/UserReducer';
+import Swal from 'sweetalert2'
 
 export default function SignIn() {
     const dispatch = useDispatch();
@@ -23,12 +24,34 @@ export default function SignIn() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const user =  await login(credentials);
-        if(user){
-            console.log(user);
-            dispatch(userLogin(user));
+        const user = await login(credentials);
+        if (user && user.token) {
+            // console.log(user);
+            dispatch(userData(user));
+            //console.log("Usuaro guardado!");
             //localStorage.setItem("user", JSON.stringify(user));
-            navigate('/home')
+            //navigate('/home')
+
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Bienvenido ' + user.firstname,
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                window.location.href = "/home";
+            })
+
+        }
+        else {
+            // console.log("error -> ", user);
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Usuario o contraseña incorrectos',
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
     }
 

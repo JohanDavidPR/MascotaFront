@@ -1,10 +1,13 @@
 import React from 'react'
 import { useState } from 'react'
+import { register } from '../../Data/Services/userService'
+import Swal from 'sweetalert2'
 
 export default function SignUp() {
 
-    const [register, setRegister] = useState({
+    const [userRegister, setUserRegister] = useState({
         identification_number: '',
+        username: '',
         firstname: '',
         lastname: '',
         email: '',
@@ -12,8 +15,36 @@ export default function SignUp() {
         confirmPassword: ''
     })
 
-    const handleChange = (e) => {
-        setRegister({ ...register, [e.target.name]: e.target.value });
+    const handleChange =  (e) => {
+        setUserRegister({ ...userRegister, [e.target.name]: e.target.value });
+    }
+
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        const result = await register(userRegister);
+        console.log(result);
+        if(result.status === 'success'){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Usuario registrado correctamente',
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                window.location.href = "/login";
+            })
+        }
+        else {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Error al registrar usuario, vuelve a intentarlo',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+
+        // console.log(register);
     }
 
     return <form className="sign-up-form" id="sign-up-form">
@@ -24,7 +55,7 @@ export default function SignUp() {
             <input
                 type="text"
                 placeholder="Identificación"
-                value={register.identification_number }
+                value={userRegister.identification_number }
                 name='identification_number'
                 onChange={handleChange}
             />
@@ -33,8 +64,18 @@ export default function SignUp() {
             <i className="fas fa-user" />
             <input
                 type="text"
+                placeholder="Username"
+                value={userRegister.username }
+                name='username'
+                onChange={handleChange}
+            />
+        </div>
+        <div className="input-field">
+            <i className="fas fa-user" />
+            <input
+                type="text"
                 placeholder="Nombre"
-                value={register.firstname}
+                value={userRegister.firstname}
                 name='firstname'
                 onChange={handleChange}
             />
@@ -44,7 +85,7 @@ export default function SignUp() {
             <input
                 type="text"
                 placeholder="Apellido"
-                value={register.lastname}
+                value={userRegister.lastname}
                 name='lastname'
                 onChange={handleChange}
             />
@@ -54,7 +95,7 @@ export default function SignUp() {
             <input
                 type="email"
                 placeholder="ejemplo@mail.com"
-                value={register.email}
+                value={userRegister.email}
                 name='email'
                 onChange={handleChange}
             />
@@ -64,7 +105,7 @@ export default function SignUp() {
             <input
                 type="password"
                 placeholder="Crea contraseña"
-                value={register.password}
+                value={userRegister.password}
                 name='password'
                 onChange={handleChange}
             />
@@ -75,7 +116,7 @@ export default function SignUp() {
             id="sign-up-btn"
             value="Registrarse"
             className="btn"
-            // onClick={registerUser}
+            onClick={handleRegister}
         />
 
         <p className="social-text">O Registrate con Google</p>

@@ -3,10 +3,9 @@ import axios from "axios";
 import { API_URL } from "../../Helpers/Const";
 import { recibeUser, sendUser } from "../Adapter/userAdapter";
 
-
 export const register = async (userData) => {
     try {
-        return await axios.post(API_URL + "user", sendUser(userData));
+        return (await axios.post(API_URL + "user", sendUser(userData))).data;
     } catch (error) {
         console.log(error);
         return null;

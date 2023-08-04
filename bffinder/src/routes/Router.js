@@ -4,36 +4,29 @@ import {
 } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser } from '../Data/Services/userService';
+
 import { userData } from '../Data/Store/reducers/UserReducer';
-// import store from '../Data/Store/Store';
+
 import PrivateRouter from './PrivateRouter';
 import PublicRouter from './PublicRouter';
 
 export default function Router() {
 
     const dispatch = useDispatch();
-    const [isValid, setIsValid] = useState(false)
-
+    const user = useSelector((store) => store.userState.user);
+    const [isValid, setIsValid] = useState(!!user);
+    
     useEffect(() => {
-
-        let user = useSelector((store) => store.useState.user)
-        //console.log(user);
-        if (user && user.token) {
-            setIsValid(true)
+      if (!user || !user.token) {
+        const currentUser = getCurrentUser();
+        if (currentUser && currentUser.token) {
+          setIsValid(true);
+          dispatch(userData(currentUser));
         } else {
-            user = getCurrentUser();
-            //console.log(user);
-            if (user && user.token) {
-                setIsValid(true)
-                dispatch(userData(user));
-            }
-            else {
-                setIsValid(false)
-            }
+          setIsValid(false);
         }
-        console.log(isValid);
-
-    }, [isValid])
+      }
+    }, [dispatch, user]);
 
     return <>
         <PublicRouter isValid={isValid} />
