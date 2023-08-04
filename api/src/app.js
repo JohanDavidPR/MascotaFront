@@ -13,6 +13,7 @@ app.use(cors());
 /*Routers*/
 app.use(require('./Routers/UserRouter'));
 app.use(require('./Routers/RolRouter'));
+app.use(require('./Routers/PetRouter'));
 // app.use(require('./Routers/UserRouter'));
 // app.use(require('./Routers/AccountRouter'));
 // app.use(require('./Routers/StipulationRouter'));

@@ -1,4 +1,4 @@
-const {getTokenData} = require('../helpers/generateToken');
+const {getTokenData} = require('../Helpers/generateToken');
 
 const checkRoleAuth = (roles) => async (req, res, next) => {
     try {
