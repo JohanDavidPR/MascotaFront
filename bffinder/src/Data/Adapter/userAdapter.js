@@ -1,6 +1,7 @@
 export const sendUser = (user) => {
     return {
         identification_number: user.identification_number,
+        username: user.username,
         name: user.firstname,
         last_name: user.lastname,
         email: user.email,

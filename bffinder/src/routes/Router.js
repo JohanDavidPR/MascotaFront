@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
-    Navigate
+  Routes,
+  Route,
 } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser } from '../Data/Services/userService';
@@ -14,24 +15,24 @@ export default function Router() {
 
     const dispatch = useDispatch();
     const user = useSelector((store) => store.userState.user);
-    const [isValid, setIsValid] = useState(!!user);
+    const [isLoggedIn, setIsLoggeIn] = useState(!user);
     
     useEffect(() => {
       if (!user || !user.token) {
         const currentUser = getCurrentUser();
         if (currentUser && currentUser.token) {
-          setIsValid(true);
+          setIsLoggeIn(true);
           dispatch(userData(currentUser));
         } else {
-          setIsValid(false);
+          setIsLoggeIn(false);
         }
       }
     }, [dispatch, user]);
 
-    return <>
-        <PublicRouter isValid={isValid} />
-        {
-            isValid ? <PrivateRouter /> : <Navigate to="/login" />
-        }
-    </>
+    return (
+      <Routes>
+        <Route path="/pet/*" element={<PrivateRouter isLoggedIn={isLoggedIn} />} />
+        <Route path="/*" element={<PublicRouter isLoggedIn={isLoggedIn} />} />
+      </Routes>
+    );
 }

@@ -8,16 +8,12 @@ import Home from '../Views/pages/Home'
 import NotFound from '../Views/pages/NotFound'
 import Autenticacion from '../Views/pages/Autenticacion'
 
-export default function PublicRouter({ isValid }) {
-    return <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={
-            !isValid ? (
-                <Autenticacion />
-            ) : (
-                <Navigate to="/home" />
-            )
-        } />
-        <Route path="*" element={<NotFound />} />
-    </Routes>
+export default function PublicRouter({ isLoggedIn }) {
+    return (
+        <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={isLoggedIn ? <Navigate to="/home" /> : <Autenticacion />} />
+            <Route path="*" element={<NotFound />} />
+        </Routes>
+    );
 }
