@@ -2,6 +2,7 @@ const {
     send
 } = require('../Helpers/Send');
 const Pet = require('../Database/Models/Pet');
+const { sendMessage } = require('../Helpers/writeToFileWithFormat');
 
 const getPets = async (req, res) => {
     try {
@@ -12,8 +13,9 @@ const getPets = async (req, res) => {
         })
     } catch (error) {
         console.log(error);
+        sendMessage(error);
         send(res, {
-            msg: "No se pudo obtener los datos",
+            msg: "-------",
             status: "error",
             error,
             codeStatus: 500
@@ -31,8 +33,9 @@ const getPet = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
+        sendMessage(error);
         send(res, {
-            msg: "No se pudo obtener el dato",
+            msg: "-----------",
             status: "error",
             error,
             codeStatus: 500
@@ -67,8 +70,9 @@ const addPet = async (req, res) => {
 
     } catch (error) {
         console.error(error);
+        sendMessage(error);
         send(res, {
-            msg: "No se pudo agregar el dato",
+            msg: "-----------",
             status: "error",
             error,
             codeStatus: 500

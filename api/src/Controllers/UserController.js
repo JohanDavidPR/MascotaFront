@@ -40,13 +40,14 @@ const getUser = async (req, res) => {
             data: user
         });
     } catch (error) {
-        console.log(error);
-        send(res, {
-            msg: "No se pudo obtener el dato",
-            status: "error",
-            error,
-            codeStatus: 500
-        });
+        console.error(error);
+                sendMessage(error);
+                send(res, {
+                    msg: "-----------",
+                    status: "error",
+                    error,
+                    codeStatus: 500
+                });
     }
 }
 
@@ -65,13 +66,14 @@ const getUserDocument = async (req, res) => {
             data: user
         });
     } catch (error) {
-        console.log(error);
-        send(res, {
-            msg: "No se pudo obtener el dato",
-            status: "error",
-            error,
-            codeStatus: 500
-        });
+        console.error(error);
+                sendMessage(error);
+                send(res, {
+                    msg: "-----------",
+                    status: "error",
+                    error,
+                    codeStatus: 500
+                });
     }
 }
 
@@ -107,13 +109,14 @@ const addUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
-        send(res, {
-            msg: "No se pudo agregar los datos",
-            status: "error",
-            error,
-            codeStatus: 500
-        });
+        console.error(error);
+                sendMessage(error);
+                send(res, {
+                    msg: "-----------",
+                    status: "error",
+                    error,
+                    codeStatus: 500
+                });
     }
 }
 
@@ -166,13 +169,14 @@ const validateUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
-        send(res, {
-            msg: "No se pudo validar el usuario",
-            status: "error",
-            error,
-            codeStatus: 500
-        });
+        console.error(error);
+                sendMessage(error);
+                send(res, {
+                    msg: "-----------",
+                    status: "error",
+                    error,
+                    codeStatus: 500
+                });
     }
 }
 
